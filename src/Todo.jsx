@@ -1,13 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import "./Todo.css";
 
 const Todo = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+  const stored = localStorage.getItem("tasks");
+  return stored ? JSON.parse(stored) : [];
+});
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(null);
   const [editedValue, setEditedValue] = useState('');
   const inputRef = useRef(null);
+  useEffect(() => {
+      const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+      if (storedTasks) setTasks(storedTasks);
+    }, []);
 
+    // 💾 Save tasks to local storage whenever it changes
+    useEffect(() => {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }, [tasks]);
   const addTask = () => {
     const value = inputRef.current.value.trim();
     if (value === '') {
