@@ -81,7 +81,9 @@ const Todo = () => {
       handleSave(index);
     }
   };
-
+  const edit =(index) =>{
+    inputRef.current.value = tasks[index].text;
+  }
   return (
     <div className="todo-container">
       <h2>My Tasks</h2>
@@ -118,7 +120,7 @@ const Todo = () => {
                 {task.text}
               </span>
             )}
-
+            <button onClick={()=>edit(index)}>Edit</button>
             <button
               onClick={() => handleDelete(index)}
               className="todo-delete-btn"
